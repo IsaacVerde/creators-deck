@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
+const path = require('path'); // <-- 1. IMPORTAR O MÓDULO 'path'
 const app = express();
 const PORT = 3000;
 
+// Configurações do Express
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // <-- 2. DEFINIR O CAMINHO ABSOLUTO PARA AS VIEWS
 app.use(express.static('public'));
 app.use(express.json());
 
@@ -22,6 +25,8 @@ app.get('/', async (req, res) => {
         res.status(500).send('Não foi possível carregar o roadmap.');
     }
 });
+
+// --- O RESTANTE DO SEU CÓDIGO CONTINUA IGUAL ---
 
 // Rota para mover o cartão
 app.post('/mover-cartao', async (req, res) => {
