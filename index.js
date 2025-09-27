@@ -1,14 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
-const path = require('path'); // <-- 1. IMPORTAR O MÓDULO 'path'
+const path = require('path');
 const app = express();
 const PORT = 3000;
 
 // Configurações do Express
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // <-- 2. DEFINIR O CAMINHO ABSOLUTO PARA AS VIEWS
-app.use(express.static('public'));
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public'))); // <<-- A MUDANÇA ESTÁ AQUI -->>
 app.use(express.json());
 
 // Rota para exibir o roadmap
