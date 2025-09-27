@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Creator's Deck | Organize seus Vídeos para YouTube</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Creator's Deck 🚀</h1>
+        <p>Planeje, roteirize e produza seus vídeos em um só lugar.</p>
+    </header>
+
+    <main class="roadmap-container">
+        <% lists.forEach(list => { %>
+            <div class="list" data-list-id="<%= list.id %>">
+                <h2><%= list.name %></h2>
+                <div class="cards-container">
+                    <% list.cards.forEach(card => { %>
+                        <div class="card" data-card-id="<%= card.id %>">
+                            <button class="archive-card-btn" data-card-id="<%= card.id %>">×</button>
+                            <h3><%= card.name %></h3>
+                            <div class="labels"><% card.labels.forEach(label => { %><span class="label" style="background-color: <%= label.color %>;"><%= label.name %></span><% }); %></div>
+                            <% if (card.desc) { %><p><%= card.desc %></p><% } %>
+                            <% if (card.checklists && card.checklists.length > 0) { %>
+                                <% card.checklists.forEach(checklist => { %>
+                                    <div class="checklist">
+                                        <h4>✅ Tarefas</h4>
+                                        <% checklist.checkItems.forEach(item => { %>
+                                            <div class="check-item" data-item-id="<%= item.id %>">
+                                                <input type="checkbox" id="<%= item.id %>" data-card-id="<%= card.id %>" <%= item.state === 'complete' ? 'checked' : '' %>>
+                                                <label for="<%= item.id %>" class="<%= item.state === 'complete' ? 'completed' : '' %>"><%= item.name %></label>
+                                                <button type="button" class="remove-check-item-btn" data-checklist-id="<%= checklist.id %>" data-item-id="<%= item.id %>">×</button>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% }); %>
+                            <% } %>
+                            <a href="<%= card.url %>" target="_blank">Ver no Trello</a>
+                        </div>
+                    <% }); %>
+                </div>
+                <div class="add-card-composer">
+                    <button class="show-form-btn">+ Adicionar uma ideia</button>
+                    <form class="add-card-form hidden">
+                        <div class="composer-card">
+                            <textarea name="cardTitle" placeholder="Insira o título do vídeo..." required></textarea>
+                            <textarea name="cardDesc" placeholder="Adicione a sinopse ou detalhes do roteiro..."></textarea>
+                            <div class="checklist-creator"></div>
+                            <button type="button" class="add-checklist-item-btn">Adicionar Tarefa</button>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="submit-card-btn">Adicionar Vídeo</button>
+                            <button type="button" class="cancel-btn">×</button>
+                        </div>
+                        <input type="hidden" name="listId" value="<%= list.id %>">
+                    </form>
+                </div>
+            </div>
+        <% }); %>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
